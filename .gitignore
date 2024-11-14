@@ -1,0 +1,34 @@
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+
+# Terraform variable overrides file
+*.tfvars
+*.tfvars.json
+
+# Terraform plan output files
+*.tfplan
+
+# .terraform directory
+.terraform/
+.terraform.lock.hcl
+
+# Sensitive files or secrets (thay đổi hoặc thêm nếu có tệp chứa thông tin nhạy cảm)
+secret.tfvars
+
+# Ignore tfenv (Terraform version manager) files
+.terraform-version
+.terraform.lock.hcl
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# IDE specific files (chỉ thêm nếu sử dụng các IDE tương ứng)
+.vscode/
+
