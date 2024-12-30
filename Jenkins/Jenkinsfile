@@ -30,6 +30,7 @@ pipeline {
                 }
             }
             steps {
+                
                 sh 'docker build -t nginx-repo -f docker/Dockerfile-nginx:${VERSION} ./docker'
                 sh 'docker build -t django-repo -f docker/Dockerfile-django:${VERSION} .
 '

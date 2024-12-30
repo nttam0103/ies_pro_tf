@@ -1,0 +1,37 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-west-1 | docker login --username AWS --password-stdin 854108365735.dkr.ecr.us-west-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image for Nginx...
+      - cd docker/
+      - cp .env.example .env
+      - cd nginx/
+      - sed -i '32s/.*/server localhost:${DJANGO_PORT} fail_timeout=0;/' nginx.conf.template
+      - cd ../..
+      - cd src/
+      - cp .env.example .env
+      - cd ..
+      - docker build -t nginx-repo -f docker/Dockerfile-nginx ./docker
+      - echo Building the Docker image for Django...
+      - docker build -t django-repo -f docker/Dockerfile-django .
+      - echo Tagging the Docker images...
+      - docker tag nginx-repo:latest 854108365735.dkr.ecr.us-west-1.amazonaws.com/ies/nginx-qa:latest
+      - docker tag django-repo:latest 854108365735.dkr.ecr.us-west-1.amazonaws.com/ies/django-qa:latest
+  post_build:
+    commands:
+      - echo Pushing the Docker images to ECR...
+      - docker push 854108365735.dkr.ecr.us-west-1.amazonaws.com/ies/nginx-qa:latest
+      - docker push 854108365735.dkr.ecr.us-west-1.amazonaws.com/ies/django-qa:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"Django","imageUri":"%s"}, {"name":"nginx","imageUri":"%s"}]' 854108365735.dkr.ecr.us-west-1.amazonaws.com/ies/django-qa:latest 854108365735.dkr.ecr.us-west-1.amazonaws.com/ies/nginx-qa:latest > imagedefinitions.json
+      - echo Build completed on `date`
+
+artifacts:
+  files:
+    - "**/*"
+    - imagedefinitions.json
