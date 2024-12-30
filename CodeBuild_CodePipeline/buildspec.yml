@@ -20,6 +20,7 @@ phases:
       - echo Building the Docker image for Django...
       - docker build -t django-repo -f docker/Dockerfile-django .
       - echo Tagging the Docker images...
+      - docker run --rm -v $(pwd):/project --workdir="/project" sonarsource/sonar-scanner-cli -Dsonar.projectKey=ies-admin-be -Dsonar.sources=. -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${TOKEN_SONAR}
       - docker tag nginx-repo:latest 854108365735.dkr.ecr.us-west-1.amazonaws.com/ies/nginx-qa:latest
       - docker tag django-repo:latest 854108365735.dkr.ecr.us-west-1.amazonaws.com/ies/django-qa:latest
   post_build:

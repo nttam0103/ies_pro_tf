@@ -30,7 +30,8 @@ pipeline {
                 }
             }
             steps {
-                
+                sh 'docker run --rm -v $(pwd):/project --workdir="/project" sonarsource/sonar-scanner-cli -Dsonar.projectKey=ies-admin-be -Dsonar.sources=. -Dsonar.host.url=${SONAR_URL} -Dsonar.login=${TOKEN_SONAR}
+'
                 sh 'docker build -t nginx-repo -f docker/Dockerfile-nginx:${VERSION} ./docker'
                 sh 'docker build -t django-repo -f docker/Dockerfile-django:${VERSION} .
 '
