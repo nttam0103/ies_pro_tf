@@ -1,9 +1,8 @@
 # Terraform state files
+.gitignore
 *.tfstate
 *.tfstate.*
 
-# Crash log files
-crash.log
 
 # Terraform variable overrides file
 *.tfvars
@@ -16,8 +15,6 @@ crash.log
 .terraform/
 .terraform.lock.hcl
 
-# Sensitive files or secrets (thay đổi hoặc thêm nếu có tệp chứa thông tin nhạy cảm)
-secret.tfvars
 
 # Ignore tfenv (Terraform version manager) files
 .terraform-version
@@ -30,5 +27,6 @@ override.tf.json
 *_override.tf.json
 
 # IDE specific files (chỉ thêm nếu sử dụng các IDE tương ứng)
-.vscode/
 
+# Keypair folder
+keypair/

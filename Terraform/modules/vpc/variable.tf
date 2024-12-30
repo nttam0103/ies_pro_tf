@@ -17,10 +17,8 @@ variable "private_subnet_ies" {
 }
 
 variable "availability_zones_a" {
-  description = "values for availability zones"
   type = string
 }
 variable "availability_zones_b" {
-  description = "values for availability zones"
   type = string
 }
